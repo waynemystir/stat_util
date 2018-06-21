@@ -54,6 +54,7 @@ Out[1274]: (22.879891457848469, 782, 9.8503739609512309e-09)
 def confidence_interval(data=None, ht=None, hv=None, n=None, cl=0.95, nort='n', svopt='unbiased', prnt=False):
     # data is list or numpy array
     # if you supply data parameter, then ht, hv, and n are overridden if you provide those as well
+    # TODO: add override if user supplies true variance or mean along with data
     # ht: sample mean (hat theta)
     # hv: variance or sample variance
     # n: number of samples
@@ -94,6 +95,13 @@ def confidence_interval(data=None, ht=None, hv=None, n=None, cl=0.95, nort='n', 
             .format('t' if nort=='t' else 'Normal', n, ht, hv, round(se,3), round(z1,3), round(z2,3), ci1, ci2))
 
     return (ci1,ht,hv)
+
+def confidence_interval_alt(data, cl=0.95):
+    a = 1.0*np.array(data)
+    n = len(a)
+    m, se = np.mean(a), stats.sem(a)
+    h = se * stats.t._ppf((1+cl)/2., n-1)
+    return m, m-h, m+h
 
 if __name__ == "__main__":
     confidence_interval()
