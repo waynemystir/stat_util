@@ -84,6 +84,7 @@ def confidence_interval(data=None, ht=None, hv=None, n=None, cl=0.95, nort='n', 
     ci1=(ht-z1*se,ht+z1*se)
 
     # or we can normalize inside the ppf:
+    z2,ci2=-41,None
     if se!=0:
         z2=stats.t.ppf(q=q,df=n-1,loc=ht,scale=se) if nort=='t' else stats.norm.ppf(q=q,loc=ht,scale=se)
         ci2=(2*ht-z2,z2)
