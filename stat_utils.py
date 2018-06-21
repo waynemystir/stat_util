@@ -52,7 +52,7 @@ Out[1274]: (22.879891457848469, 782, 9.8503739609512309e-09)
 '''
 
 def confidence_interval(data=None, ht=None, hv=None, n=None, cl=0.95, nort='n', svopt='unbiased', prnt=False):
-    # data is list of numpy array
+    # data is list or numpy array
     # if you supply data parameter, then ht, hv, and n are overridden if you provide those as well
     # ht: sample mean (hat theta)
     # hv: variance or sample variance
