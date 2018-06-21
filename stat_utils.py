@@ -70,9 +70,6 @@ def confidence_interval(data=None, ht=None, hv=None, n=None, cl=0.95, nort='n', 
         ht=sample_mean(data)
         hv=sample_var(data,ht=ht,opt=svopt)
 
-    nortb=nort=='t'
-    norts='t' if nort=='t' else 'Normal'
-
     # quantile: defaults to (1+.95)/2=0.975
     q=(1+cl)/2
 
@@ -83,17 +80,17 @@ def confidence_interval(data=None, ht=None, hv=None, n=None, cl=0.95, nort='n', 
 
     # we can compute the confidence interval in two ways:
     # normalize after the ppf (percent point function):
-    z1=stats.t.ppf(q=q,df=n-1) if nortb else stats.norm.ppf(q=q)
+    z1=stats.t.ppf(q=q,df=n-1) if nort=='t' else stats.norm.ppf(q=q)
     ci1=(ht-z1*se,ht+z1*se)
 
     # or we can normalize inside the ppf:
     if se!=0:
-        z2=stats.t.ppf(q=q,df=n-1,loc=ht,scale=se) if nortb else stats.norm.ppf(q=q,loc=ht,scale=se)
+        z2=stats.t.ppf(q=q,df=n-1,loc=ht,scale=se) if nort=='t' else stats.norm.ppf(q=q,loc=ht,scale=se)
         ci2=(2*ht-z2,z2)
 
     if prnt:
         print("ci: nort={} n={} ht={} hv={} se={} z1={} z2={}\nci1={}\nci2={}"
-            .format(norts, n, ht, hv, round(se,3), round(z1,3), round(z2,3), ci1, ci2))
+            .format('t' if nort=='t' else 'Normal', n, ht, hv, round(se,3), round(z1,3), round(z2,3), ci1, ci2))
 
     return (ci1,ht,hv)
 

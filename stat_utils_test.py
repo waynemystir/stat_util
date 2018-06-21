@@ -84,10 +84,10 @@ def test_confidence_interval():
     print("************************************************************************\n")
 
 
-def conf_int_smoke_test(t=1/2,n=10000,trials=100,cl=0.95,pr=False,prci=True):
+def conf_int_smoke_test(t=1/2,n=10000,trials=100,cl=0.95,nort='n',pr=False,prci=True):
     w=0
     f0=su.flipn(p=t,n=n)
-    c,ht,hv=su.confidence_interval(data=f0,cl=cl,nort='n')
+    c,ht,hv=su.confidence_interval(data=f0,cl=cl,nort=nort)
     hs2=su.sample_var(f0,ht=ht,opt='bernoulli-1')
     if prci: print("ht={} hv={} hs2={} ci={} n={}".format(ht,hv,hs2,c,n))
     for i in range(trials):
@@ -99,11 +99,11 @@ def conf_int_smoke_test(t=1/2,n=10000,trials=100,cl=0.95,pr=False,prci=True):
                 .format(np.array(f).astype(int),sum(f),r,n,round(c[0],3),round(c[1],3)))
     return w,trials,w/trials
 
-def conf_int_test(n=1000,trials=100,cl=0.95):
+def conf_int_test(n=1000,trials=100,cl=0.95,nort='n'):
     w=0
     for i in range(trials):
         p=random.random()
         f=su.flipn(p=p,n=n)
-        c,ht,hv=su.confidence_interval(data=f,cl=cl,nort='n')
+        c,ht,hv=su.confidence_interval(data=f,cl=cl,nort=nort)
         if p>=c[0] and p<=c[1]: w+=1
     return w,trials,w/trials
